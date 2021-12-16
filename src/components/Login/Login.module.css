@@ -1,0 +1,29 @@
+.login__container {
+    justify-content: center;
+    margin-top: 40px;
+    line-height: 2;
+}
+
+.login__innerContainer {
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 50px;
+    padding-top: 30px;
+    width: 500px;
+    height: 460px;
+    background: #fff;
+    border-radius: 10px;
+}
+
+.login__label {
+    text-align: left;
+    margin-top: 30px;
+}
+
+.login__button {
+    margin-top: 40px;
+}
+
+.login__error {
+    color: red;
+}

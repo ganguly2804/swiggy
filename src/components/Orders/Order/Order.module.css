@@ -1,0 +1,63 @@
+.order {
+    width: 800px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    border-radius: 10px;
+    margin: 20px;
+}
+
+.order__restaurant {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background: var(--light-color);
+}
+
+.restaurant__details {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex: 0.8;
+}
+
+.restaurant__image {
+    height: 100px
+}
+
+.restaurant__details__text {
+    padding: 10px;
+}
+
+.details__title {
+    font-size: 25px;
+}
+
+.details__address {
+    color: rgba(0, 0, 0, 0.644)
+}
+
+.order__price {
+    flex: 0.2;
+    text-align: center;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+}
+
+.order__price__text {
+    margin: 0;
+    font-size: 30px;
+}
+
+.order__details {
+    padding: 10px;
+    padding-left: 50px;
+    line-height: 0.5;
+    padding-bottom: 0;
+    font-size: 14px;
+}
+
+.order__details__title {
+    font-size: 12px;
+}

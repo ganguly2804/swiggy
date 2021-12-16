@@ -1,0 +1,29 @@
+.signup__container {
+    justify-content: center;
+    margin-top: 40px;
+    line-height: 2;
+}
+
+.signup__innerContainer {
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 50px;
+    padding-top: 30px;
+    width: 500px;
+    height: 465px;
+    background: #fff;
+    border-radius: 10px;
+}
+
+.signup__label {
+    text-align: left;
+    margin-top: 10px;
+}
+
+.signup__button {
+    margin-top: 20px;
+}
+
+.signup__error {
+    color: red;
+}

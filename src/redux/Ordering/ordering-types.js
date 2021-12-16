@@ -1,0 +1,12 @@
+export const STORE_PRICE = "STORE_PRICE";
+export const PLACE_ORDER = "PLACE_ORDER";
+export const LOGOUT = "LOGOUT";
+export const SET_USER_DETAILS = "SET_USER_DETAILS";
+export const STORE_DATA = "STORE_DATA"
+export const STORE_CREDENTIALS = "STORE_CREDENTIALS";
+export const LOAD_RESTAURANT_MENU = "LOAD_RESTAURANT_MENU";
+export const ADD_TO_CART = "ADD_TO_CART";
+export const ADJUST_ITEM_QTY = "ADJUST_ITEM_QTY";
+export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
+export const ADD_ADDRESS = "ADD_ADDRESS";
+export const SET_ADDRESS = "SET_ADDRESS";

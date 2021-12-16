@@ -1,0 +1,18 @@
+:root {
+    --primary-color: #622ae8;
+    --secondary-color: #333333;
+    --light-color: #eeeeee;
+    --dark-color: #000000;
+    --bs-body-line-height: 1;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans Display', sans-serif;
+    background-color: var(--light-color);
+}

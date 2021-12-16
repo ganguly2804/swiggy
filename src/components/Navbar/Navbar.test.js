@@ -1,26 +1,28 @@
 import React from "react";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
-import { render, fireEvent, cleanup } from "@testing-library/react";
+import { render, fireEvent, cleanup, screen } from "@testing-library/react";
 import { BrowserRouter as Router } from 'react-router-dom';
 import Navbar from "./Navbar";
+import { act } from 'react-dom/test-utils';
 
 afterEach(cleanup);
 
+beforeEach(() => {
+  jest.spyOn(console, 'log').mockImplementation(() => {});
+  jest.spyOn(console, 'error').mockImplementation(() => {});
+  jest.spyOn(console, 'warn').mockImplementation(() => {});
+});
+
 describe("renders Navbar when not logged in", () => {
-    const startingState = {
-        credentials: null,
-        previousRestaurant: null,
-        currentRestaurant: null,
-        cart: [],
-        currentItem: null,
-        orders: [],
-        addresses: [],
-        currentAddress: null,
-        price: null,
+    var initialState = {
+        orders: {
+            credentials: null,
+            cart: []
+        }
     };
 
-    function reducer(state = startingState, action) {
+    function reducer(state = initialState, action) {
         return state;
     };
 
@@ -37,61 +39,30 @@ describe("renders Navbar when not logged in", () => {
         const { getByText } = renderWithRedux(<Navbar />);
         expect(getByText("Login")).toBeInTheDocument();
     });
+
+    it("renders the cart items qty when cart is empty", () => {
+        const { getByText } = renderWithRedux(<Navbar />);
+        expect(getByText("0")).toBeInTheDocument();
+    });
 });
 
 describe("renders Navbar when logged in", () => {
-    const startingState = {
-        credentials: { username: "testusername", password: "testpassword" },
-        previousRestaurant: {
-            "id": "6442",
-            "address": "Inside MORE MEGA STORE, KBR Complex Mall, Outer Ring Road, Bangalore",
-            "avgRating": "4.3",
-            "cloudinaryImageId": "urbjclsmv0wzxwlhyspg",
-            "costForTwo": 30000,
-            "costForTwoString": "₹300 FOR TWO",
-            "cuisines": [
-                "Desserts",
-                "Fast Food"
-            ],
-            "deliveryTime": 22,
-            "name": "Polar Bear",
-            "new": false,
-            "subtype": "basic",
-            "totalRatings": 100,
-            "totalRatingsString": "100+ ratings",
-            "uuid": "93a48c36-c94c-46ab-9c4c-5c9bd0cf8a28",
-            "veg": true,
-        },
-        currentRestaurant: {
-            "id": "6442",
-            "address": "Inside MORE MEGA STORE, KBR Complex Mall, Outer Ring Road, Bangalore",
-            "avgRating": "4.3",
-            "cloudinaryImageId": "urbjclsmv0wzxwlhyspg",
-            "costForTwo": 30000,
-            "costForTwoString": "₹300 FOR TWO",
-            "cuisines": [
-                "Desserts",
-                "Fast Food"
-            ],
-            "deliveryTime": 22,
-            "name": "Polar Bear",
-            "new": false,
-            "subtype": "basic",
-            "totalRatings": 100,
-            "totalRatingsString": "100+ ratings",
-            "uuid": "93a48c36-c94c-46ab-9c4c-5c9bd0cf8a28",
-            "veg": true,
-        },
-        cart: [{ id: 1, qty: 2 }, { id: 2, qty: 1 }],
-        currentItem: null,
-        orders: [],
-        addresses: [],
-        currentAddress: null,
-        price: 100,
+    const initialState = {
+        orders: {
+            credentials: { username: "testusername", password: "testpassword" },
+            cart: [{ id: 1, qty: 2 }, { id: 2, qty: 1 }],
+        }
     };
 
-    function reducer(state = startingState, action) {
-        return state;
+    var logoutActionCalled = false;
+
+    function reducer(state = initialState, action) {
+        if (action.type == "LOGOUT") {
+            logoutActionCalled = true;
+            return state;
+        } else {
+            return state;
+        }
     };
 
     function renderWithRedux(
@@ -103,9 +74,27 @@ describe("renders Navbar when logged in", () => {
         };
     };
 
-    it("renders with redux", () => {
+    it("renders the Navbar with redux", () => {
         const { getByText } = renderWithRedux(<Navbar />);
         expect(getByText("testusername")).toBeInTheDocument();
-        //expect(actionCalled).toBe(true);
+    });
+
+    it("renders the logout button (dropdown) with its logout functionality on clicking username", () => {
+
+        expect(logoutActionCalled).toBe(false);
+
+        renderWithRedux(<Navbar />);
+        act(() => {
+            fireEvent.click(screen.getByText("testusername"));
+        });
+        act(() => {
+            fireEvent.click(screen.getByText("Logout"));
+        })
+        expect(logoutActionCalled).toBe(true);
+    });
+
+    it("renders the cart items qty when cart has 3 items", () => {
+        const { getByText } = renderWithRedux(<Navbar />);
+        expect(getByText("3")).toBeInTheDocument();
     });
 });

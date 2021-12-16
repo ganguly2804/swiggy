@@ -13,7 +13,7 @@ const Restaurants = () => {
  
   const getRestaurants = async () => {
     try {
-      console.log("Fetching restaurants...");
+      //console.log("Fetching restaurants...");
       /*await axios
       .get("http://food-power.glitch.me/restaurants")
       .then(response => {

@@ -7,6 +7,12 @@ import Restaurant from "./Restaurant";
 
 afterEach(cleanup);
 
+beforeEach(() => {
+  jest.spyOn(console, 'log').mockImplementation(() => {});
+  jest.spyOn(console, 'error').mockImplementation(() => {});
+  jest.spyOn(console, 'warn').mockImplementation(() => {});
+});
+
 const restaurantData = {
     "id": "6442",
     "address": "Inside MORE MEGA STORE, KBR Complex Mall, Outer Ring Road, Bangalore",
@@ -28,17 +34,7 @@ const restaurantData = {
     "veg": true,
 };
 
-const startingState = {
-    credentials: null,
-    previousRestaurant: null,
-    currentRestaurant: null,
-    cart: [],
-    currentItem: null,
-    orders: [],
-    addresses: [],
-    currentAddress: null,
-    price: null,
-};
+const startingState = {};
 
 var actionCalled = false;
 

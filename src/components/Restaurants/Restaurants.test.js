@@ -7,6 +7,12 @@ import Restaurants from "./Restaurants";
 
 jest.mock("./../../services/restaurantsData");
 
+beforeEach(() => {
+  jest.spyOn(console, 'log').mockImplementation(() => {});
+  jest.spyOn(console, 'error').mockImplementation(() => {});
+  jest.spyOn(console, 'warn').mockImplementation(() => {});
+});
+
 describe("renders the Restaurants component", () => {
     it("renders the loading spinner before data is fetched", () => {
         const { getByTestId } = render(<Restaurants />);

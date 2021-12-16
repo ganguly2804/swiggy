@@ -24,7 +24,9 @@ const Restaurants = () => {
         });
         setRestaurants(restaurantsArr);
         setDataFetched(true);
-      });*/
+      });
+      */
+      
       const response = await restaurantsData();
       const responseData = response.data.data;
       //console.log(response);
@@ -36,6 +38,7 @@ const Restaurants = () => {
         setRestaurants(restaurantsArr);
         setDataFetched(true);
       })
+
     } catch (e) {
       console.log(e);
     }

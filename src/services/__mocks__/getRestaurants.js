@@ -259,10 +259,10 @@ const fakeRestaurantsData = {
     "request": {}
 }
 
-const restaurantsData = async () => {
+const getRestaurants = async () => {
   return await new Promise(resolve => {
     resolve(fakeRestaurantsData);
   });
 };
 
-export default restaurantsData;
+export default getRestaurants;

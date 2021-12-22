@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./Restaurants.module.css";
 import Restaurant from "./Restaurant/Restaurant";
 //import axios from "axios";
-import restaurantsData from "../../services/restaurantsData";
+import getRestaurants from "../../services/getRestaurants";
 import * as ReactBootStrap from "react-bootstrap";
 import { act } from "react-dom/test-utils";
  
@@ -11,7 +11,7 @@ const Restaurants = () => {
   const [dataFetched, setDataFetched] = useState(false);
   const [searchInput, setSearchInput] = useState("");
  
-  const getRestaurants = async () => {
+  const fetchRestaurants = async () => {
     try {
       //console.log("Fetching restaurants...");
       /*await axios
@@ -27,7 +27,7 @@ const Restaurants = () => {
       });
       */
       
-      const response = await restaurantsData();
+      const response = await getRestaurants();
       const responseData = response.data.data;
       //console.log(response);
       const restaurantsArr = [];
@@ -45,7 +45,7 @@ const Restaurants = () => {
   }
  
   useEffect(() => {
-    getRestaurants();
+    fetchRestaurants();
   }, []);
  
   return (

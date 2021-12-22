@@ -2,10 +2,12 @@ import React from "react";
 import { Provider } from 'react-redux';
 import { createStore } from "redux";
 import { BrowserRouter as Router } from 'react-router-dom';
-import { render } from "@testing-library/react";
+import { render, cleanup } from "@testing-library/react";
 import Restaurants from "./Restaurants";
 
-jest.mock("./../../services/restaurantsData");
+jest.mock("./../../services/getRestaurants");
+
+afterEach(cleanup);
 
 beforeEach(() => {
   jest.spyOn(console, 'log').mockImplementation(() => {});

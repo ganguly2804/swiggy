@@ -13,19 +13,19 @@ import {
 } from "react-bootstrap";
 import * as styles from "./Login.module.css";
 import { storeCredentials, storeData, setUserDetails } from "../../redux/Ordering/ordering-actions";
- 
+
 const Login = ({ storeCredentials, storeData, setUserDetails }) => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
- 
+
   const [errorMsg, setErrorMsg] = useState("");
- 
+
   const history = useHistory();
- 
+
   const getToken = async () => {
     try {
       const body = {
-        username: username,
+        email: email,
         password: password
       }
       await axios
@@ -33,7 +33,7 @@ const Login = ({ storeCredentials, storeData, setUserDetails }) => {
         .then(response => {
           console.log("Response received: ", response.data);
           const credentials = {
-            username: username,
+            email: email,
             password: password,
             token: response.data.id
           };
@@ -44,19 +44,39 @@ const Login = ({ storeCredentials, storeData, setUserDetails }) => {
       console.log(e);
     }
   }
- 
-  const onChangeUsername = e => {
-    setUsername(e.target.value);
+
+  const onChangeEmail = e => {
+    setEmail(e.target.value);
   };
- 
+
   const onChangePassword = e => {
     setPassword(e.target.value);
   };
- 
-  const onLoginClick = () => {
-    console.log(username, " ", password);
-    if (username != "" && password != "") {
-      const dataValues = JSON.parse(localStorage.getItem(username));
+
+  const onLoginClick = async () => {
+    try {
+      const body = {
+        email: email,
+        password: password
+      }
+      const tokenData = await postLogin(body);
+
+      if ("jwt" in tokenData) {
+        const credentials = {
+          ...body,
+          token: tokenData.jwt
+        };
+        storeCredentials(credentials);
+      }
+
+    } catch (e) {
+      console.log(e);
+    }
+
+
+    console.log(email, " ", password);
+    if (email != "" && password != "") {
+      const dataValues = JSON.parse(localStorage.getItem(email));
       if (dataValues != null) {
         const actualPassword = dataValues.credentials.password;
         if (password == actualPassword) {
@@ -66,13 +86,13 @@ const Login = ({ storeCredentials, storeData, setUserDetails }) => {
           setErrorMsg("Incorrect password");
         }
       } else {
-        setErrorMsg("Incorrect Username");
+        setErrorMsg("Incorrect Email");
       }
     } else {
       setErrorMsg("Please fill out both fields");
     }
   };
- 
+
   return (
     <Container>
       <Row className={styles.login__container}>
@@ -81,19 +101,19 @@ const Login = ({ storeCredentials, storeData, setUserDetails }) => {
             <h1 className={styles.login__header}>LOG IN</h1>
             <Form>
               <div className={styles.login__label}>
-                <Form.Group controlId="usernameId">
-                  <Form.Label>User name</Form.Label>
+                <Form.Group controlId="emailId">
+                  <Form.Label>Email</Form.Label>
                   <Form.Control
                     type="text"
-                    name="username"
-                    placeholder="Enter user name"
-                    value={username}
-                    onChange={onChangeUsername}
+                    name="email"
+                    placeholder="Enter email"
+                    value={email}
+                    onChange={onChangeEmail}
                   />
                   <FormControl.Feedback type="invalid"></FormControl.Feedback>
                 </Form.Group>
               </div>
- 
+
               <div className={styles.login__label}>
                 <Form.Group controlId="passwordId" className={styles.login__label}>
                   <Form.Label>Your password</Form.Label>
@@ -109,7 +129,7 @@ const Login = ({ storeCredentials, storeData, setUserDetails }) => {
               </div>
             </Form>
             <Button className={styles.login__button} color="primary" onClick={onLoginClick}>Login</Button>
-            <p className="mt-2" style={{marginBottom: "0px"}}>
+            <p className="mt-2" style={{ marginBottom: "0px" }}>
               Don't have account? <Link to="/signup">Signup</Link>
             </p>
             <div className={styles.login__error}>
@@ -121,7 +141,7 @@ const Login = ({ storeCredentials, storeData, setUserDetails }) => {
     </Container>
   );
 };
- 
+
 const mapDispatchToProps = (dispatch) => {
   return {
     storeCredentials: (item) => dispatch(storeCredentials(item)),
@@ -129,5 +149,5 @@ const mapDispatchToProps = (dispatch) => {
     setUserDetails: (item) => dispatch(setUserDetails(item))
   };
 };
- 
+
 export default connect(null, mapDispatchToProps)(Login);

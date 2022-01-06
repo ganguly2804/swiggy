@@ -42,8 +42,8 @@ const Signup = () => {
         email: email,
         password: password,
         secret: SECRET_TOKEN
-      }
-      console.log("Calling postSignup with body: ", JSON.stringify(body))
+      };
+      console.log("Calling postSignup with body: ", JSON.stringify(body));
       const messageData = await postSignup(body);
       console.log("Response received: ", messageData);
 
@@ -73,7 +73,6 @@ const Signup = () => {
                     type="text"
                     name="username"
                     placeholder="Enter user name"
-                    value={username}
                     onChange={onChangeUsername}
                     data-testid="name_input"
                   />
@@ -86,7 +85,6 @@ const Signup = () => {
                     type="text"
                     name="email"
                     placeholder="Enter user email"
-                    value={email}
                     onChange={onChangeEmail}
                     data-testid="email_input"
                   />
@@ -99,25 +97,24 @@ const Signup = () => {
                     type="password"
                     name="password"
                     placeholder="Enter a password"
-                    value={password}
                     onChange={onChangePassword}
                     data-testid="password_input"
                   />
                   <Form.Control.Feedback type="invalid"></Form.Control.Feedback>
                 </Form.Group>
               </div>
+              <Button
+                className={styles.signup__button}
+                color="primary"
+                onClick={onSignupClick}
+                data-testid="submit_button">
+                Signup
+              </Button>
             </Form>
-            <Button
-              className={styles.signup__button}
-              color="primary"
-              onClick={onSignupClick}
-              data-testid="submit_button">
-              Signup
-            </Button>
             <p className="mt-2" style={{ margin: "0px" }}>
               Already have an account? <Link to="/login">Login</Link>
             </p>
-            <div className={styles.signup__error}  data-testid="error_message">
+            <div className={styles.signup__error} data-testid="error_message">
               {errorMsg}
             </div>
           </div>

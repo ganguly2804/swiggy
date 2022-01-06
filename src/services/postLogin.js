@@ -1,8 +1,10 @@
 import axios from "axios";
 
-// eslint-disable-next-line
 const postLogin = async (body) => {
-    const response = await axios.post('http://food-power.glitch.me/login', { body })
+    const response = await axios.post('https://food-power.glitch.me/login', body)
+        .catch(err => {
+            return err.response;
+        });
     return response.data;
 };
 

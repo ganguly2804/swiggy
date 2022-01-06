@@ -1,10 +1,12 @@
 import React from "react";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
 import { BrowserRouter as Router } from 'react-router-dom';
 import { screen, render, cleanup, fireEvent } from "@testing-library/react";
-import Signup from "./Signup";
+import Login from "./Login";
 import { act } from 'react-dom/test-utils';
 
-jest.mock("./../../services/postSignup");
+jest.mock("./../../services/postLogin");
 
 afterEach(cleanup);
 
@@ -12,17 +14,41 @@ beforeEach(() => {
     jest.spyOn(console, 'log').mockImplementation(() => { });
     jest.spyOn(console, 'error').mockImplementation(() => { });
     jest.spyOn(console, 'warn').mockImplementation(() => { });
-    render(<Router><Signup /></Router>);
+
+    const startingState = {};
+
+    var actionCalled = false;
+
+    function reducer(state = startingState, action) {
+        if (action.type == "STORE_CREDENTIALS") {
+            actionCalled = true;
+            return state;
+        } else {
+            return state;
+        }
+    };
+
+    function renderWithRedux(
+        component,
+        { initialState, store = createStore(reducer, initialState) } = {}
+    ) {
+        render(
+            <Provider store={store}>
+                <Router>
+                    {component}
+                </Router>
+            </Provider>);
+    };
+    renderWithRedux(<Login />);
 });
 
-describe("renders Signup page", () => {
+describe("renders Login page", () => {
     it("renders the labels for the input fields", () => {
-        expect(screen.getByTestId("name_label")).toBeInTheDocument();
+        // add data-testid attribute to the form components
         expect(screen.getByTestId("email_label")).toBeInTheDocument();
         expect(screen.getByTestId("password_label")).toBeInTheDocument();
     });
     it("renders the input fields", () => {
-        expect(screen.getByTestId("name_input")).toBeInTheDocument();
         expect(screen.getByTestId("email_input")).toBeInTheDocument();
         expect(screen.getByTestId("password_input")).toBeInTheDocument();
     });
@@ -45,16 +71,13 @@ describe("renders the error message correctly when needed", () => {
         });
     });
     it("renders no error message when all fields are filled", done => {
-        const nameInput = screen.getByTestId("name_input");
         const emailInput = screen.getByTestId("email_input");
         const passwordInput = screen.getByTestId("password_input");
         act(() => {
-            fireEvent.change(nameInput, { target: { value: "Test Name" } });
             fireEvent.change(emailInput, { target: { value: "testemail12@gmail.com" } });
             fireEvent.change(passwordInput, { target: { value: "Test@12" } });
         });
         setTimeout(() => {
-            expect(nameInput.value).toBe("Test Name");
             expect(emailInput.value).toBe("testemail12@gmail.com");
             expect(passwordInput.value).toBe("Test@12");
             fireEvent.click(screen.getByTestId("submit_button"));

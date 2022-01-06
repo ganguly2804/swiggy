@@ -22,7 +22,7 @@ const orderingReducer = (state = INITIAL_STATE, action) => {
       orders: state.orders,
       addresses: state.addresses,
     };
-    localStorage.setItem(state.credentials.username, JSON.stringify(userData));
+    localStorage.setItem(state.credentials.email, JSON.stringify(userData));
   };
  
   const getPreviousRestaurant = (data) => {

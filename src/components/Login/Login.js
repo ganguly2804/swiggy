@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
-import axios from "axios";
 import {
   Container,
   Button,
@@ -12,6 +11,7 @@ import {
   FormControl
 } from "react-bootstrap";
 import * as styles from "./Login.module.css";
+import postLogin from "../../services/postLogin";
 import { storeCredentials, storeData, setUserDetails } from "../../redux/Ordering/ordering-actions";
 
 const Login = ({ storeCredentials, storeData, setUserDetails }) => {
@@ -21,29 +21,6 @@ const Login = ({ storeCredentials, storeData, setUserDetails }) => {
   const [errorMsg, setErrorMsg] = useState("");
 
   const history = useHistory();
-
-  const getToken = async () => {
-    try {
-      const body = {
-        email: email,
-        password: password
-      }
-      await axios
-        .post('https://reqres.in/api/articles', { body })
-        .then(response => {
-          console.log("Response received: ", response.data);
-          const credentials = {
-            email: email,
-            password: password,
-            token: response.data.id
-          };
-          storeCredentials(credentials);
-          storeData();
-        });
-    } catch (e) {
-      console.log(e);
-    }
-  }
 
   const onChangeEmail = e => {
     setEmail(e.target.value);
@@ -58,39 +35,26 @@ const Login = ({ storeCredentials, storeData, setUserDetails }) => {
       const body = {
         email: email,
         password: password
-      }
+      };
+      console.log("Calling postLogin with body: ", JSON.stringify(body));
       const tokenData = await postLogin(body);
+      console.log("Response received: ", tokenData);
 
       if ("jwt" in tokenData) {
         const credentials = {
           ...body,
-          token: tokenData.jwt
+          token: tokenData.jwt,
         };
+        // Update store state with valid credentials
         storeCredentials(credentials);
-      }
+        history.push('/');
+      } else {
+        setErrorMsg(tokenData.message);
+      };
 
     } catch (e) {
       console.log(e);
-    }
-
-
-    console.log(email, " ", password);
-    if (email != "" && password != "") {
-      const dataValues = JSON.parse(localStorage.getItem(email));
-      if (dataValues != null) {
-        const actualPassword = dataValues.credentials.password;
-        if (password == actualPassword) {
-          setUserDetails(dataValues);
-          history.push('/');
-        } else {
-          setErrorMsg("Incorrect password");
-        }
-      } else {
-        setErrorMsg("Incorrect Email");
-      }
-    } else {
-      setErrorMsg("Please fill out both fields");
-    }
+    };
   };
 
   return (
@@ -102,13 +66,14 @@ const Login = ({ storeCredentials, storeData, setUserDetails }) => {
             <Form>
               <div className={styles.login__label}>
                 <Form.Group controlId="emailId">
-                  <Form.Label>Email</Form.Label>
+                  <Form.Label data-testid="email_label">Email</Form.Label>
                   <Form.Control
                     type="text"
                     name="email"
                     placeholder="Enter email"
                     value={email}
                     onChange={onChangeEmail}
+                    data-testid="email_input"
                   />
                   <FormControl.Feedback type="invalid"></FormControl.Feedback>
                 </Form.Group>
@@ -116,23 +81,30 @@ const Login = ({ storeCredentials, storeData, setUserDetails }) => {
 
               <div className={styles.login__label}>
                 <Form.Group controlId="passwordId" className={styles.login__label}>
-                  <Form.Label>Your password</Form.Label>
+                  <Form.Label data-testid="password_label">Your password</Form.Label>
                   <Form.Control
                     type="password"
                     name="password"
                     placeholder="Enter password"
                     value={password}
                     onChange={onChangePassword}
+                    data-testid="password_input"
                   />
                   <Form.Control.Feedback type="invalid"></Form.Control.Feedback>
                 </Form.Group>
               </div>
             </Form>
-            <Button className={styles.login__button} color="primary" onClick={onLoginClick}>Login</Button>
+            <Button
+              className={styles.login__button}
+              color="primary"
+              onClick={onLoginClick}
+              data-testid="submit_button">
+              Login
+            </Button>
             <p className="mt-2" style={{ marginBottom: "0px" }}>
               Don't have account? <Link to="/signup">Signup</Link>
             </p>
-            <div className={styles.login__error}>
+            <div className={styles.login__error} data-testid="error_message">
               {errorMsg}
             </div>
           </div>

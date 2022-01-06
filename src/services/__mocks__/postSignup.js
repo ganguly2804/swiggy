@@ -2,11 +2,11 @@ const fakeSignupResponse = (body) => {
     const {name, email, password} = body;
     if (name != "" && email != "" && password != "") {
         return {
-            "message": "user created, try to login",
+            "message": "User created, try to login",
         }
     } else {
         return {
-            "message": "dummy error message",
+            "message": "Dummy error message",
         }
     }
 }

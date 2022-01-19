@@ -259,9 +259,9 @@ const fakeRestaurantsData = {
     "request": {}
 }
 
-const getRestaurants = async () => {
+const getRestaurants = async (token) => {
   return await new Promise(resolve => {
-    resolve(fakeRestaurantsData);
+    resolve(fakeRestaurantsData.data);
   });
 };
 

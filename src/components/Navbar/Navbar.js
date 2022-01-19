@@ -38,8 +38,9 @@ const Navbar = ({ credentials, cart, logout }) => {
 
   const Login = () => {
     if (credentials != null) {
+      const name = credentials.name.split(" ")[0];
       return (
-        <DropdownButton title={credentials.username} className={styles.navbar__login}>
+        <DropdownButton title={name} className={styles.navbar__login}>
           <Dropdown.Item onClick={logoutClickHandler}>Logout</Dropdown.Item>
         </DropdownButton>
       )

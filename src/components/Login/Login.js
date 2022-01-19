@@ -43,7 +43,9 @@ const Login = ({ storeCredentials, storeData, setUserDetails }) => {
       if ("jwt" in tokenData) {
         const credentials = {
           ...body,
-          token: tokenData.jwt,
+          name: tokenData.name,
+          token: tokenData.token,
+          jwt: tokenData.jwt,
         };
         // Update store state with valid credentials
         storeCredentials(credentials);

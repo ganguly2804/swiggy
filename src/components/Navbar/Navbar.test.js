@@ -9,9 +9,9 @@ import { act } from 'react-dom/test-utils';
 afterEach(cleanup);
 
 beforeEach(() => {
-  jest.spyOn(console, 'log').mockImplementation(() => {});
-  jest.spyOn(console, 'error').mockImplementation(() => {});
-  jest.spyOn(console, 'warn').mockImplementation(() => {});
+    jest.spyOn(console, 'log').mockImplementation(() => { });
+    jest.spyOn(console, 'error').mockImplementation(() => { });
+    jest.spyOn(console, 'warn').mockImplementation(() => { });
 });
 
 describe("renders Navbar when not logged in", () => {
@@ -49,7 +49,13 @@ describe("renders Navbar when not logged in", () => {
 describe("renders Navbar when logged in", () => {
     const initialState = {
         orders: {
-            credentials: { username: "testusername", password: "testpassword" },
+            credentials: {
+                username: "testusername",
+                password: "testpassword",
+                name: "test name",
+                token: "testtoken",
+                jwt: "testjwt"
+            },
             cart: [{ id: 1, qty: 2 }, { id: 2, qty: 1 }],
         }
     };
@@ -76,7 +82,7 @@ describe("renders Navbar when logged in", () => {
 
     it("renders the Navbar with redux", () => {
         const { getByText } = renderWithRedux(<Navbar />);
-        expect(getByText("testusername")).toBeInTheDocument();
+        expect(getByText("test")).toBeInTheDocument(); //user's first name
     });
 
     it("renders the logout button (dropdown) with its logout functionality on clicking username", () => {
@@ -85,7 +91,7 @@ describe("renders Navbar when logged in", () => {
 
         renderWithRedux(<Navbar />);
         act(() => {
-            fireEvent.click(screen.getByText("testusername"));
+            fireEvent.click(screen.getByText("test")); //user's first name
         });
         act(() => {
             fireEvent.click(screen.getByText("Logout"));

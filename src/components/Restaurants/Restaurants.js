@@ -75,6 +75,7 @@ const Restaurants = ({ credentials }) => {
 };
 
 const mapStateToProps = (state) => {
+  // console.log(state);
   return {
     credentials: state.orders.credentials,
   };

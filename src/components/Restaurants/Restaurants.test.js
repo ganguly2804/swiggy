@@ -7,6 +7,8 @@ import Restaurants from "./Restaurants";
 
 jest.mock("./../../services/getRestaurants");
 
+let wrapper;
+
 afterEach(cleanup);
 
 beforeEach(() => {
@@ -29,7 +31,7 @@ beforeEach(() => {
         return state;
     };
     const store = createStore(reducer, initialState);
-    render(
+    wrapper = render(
         <Provider store={store}>
             <Router>
                 <Restaurants />
@@ -40,12 +42,12 @@ beforeEach(() => {
 
 describe("renders the Restaurants component", () => {
     // it("renders the loading spinner before data is fetched", () => {
-    //     expect(screen.getByTestId("loading")).toBeInTheDocument();
+    //     expect(wrapper.getByTestId("loading")).toBeInTheDocument();
     // });
 
     it("fetches the restaurants data and renders the Restaurants cards with its details", done => {
         setTimeout(() => {
-            expect(screen.getByText("Polar Bear")).toBeInTheDocument();
+            expect(wrapper.getByText("Polar Bear")).toBeInTheDocument();
             done();
         });
 

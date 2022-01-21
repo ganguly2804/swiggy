@@ -19,29 +19,12 @@ const Restaurants = ({ credentials }) => {
       if (credentials != null) {
         const token = credentials.jwt;
         const response = await getRestaurants(token);
-        const responseData = response.data;
-        //console.log(response);
-        const restaurantsArr = [];
-        (responseData).forEach((item) => {
-          restaurantsArr.push(item);
-        });
+        const restaurantsArr = response.data;
         act(() => {
           setRestaurants(restaurantsArr);
           setDataFetched(true);
         })
       } else {
-        // const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InNoYXphbUBnbWFpbC5jb20iLCJzY29wZSI6ImN1c3RvbWVyIiwiYmF0Y2giOiIyMDIxIiwianRpIjoiYmFmMmNlNmYtZDBmMS00MWQxLWE1NTQtMDQ4YzBiNjI3MDViIiwiaWF0IjoxNjQxNjQwNTgyLCJleHAiOjE2NDE2NTQ5ODJ9.Rkd_4qMPiR-z_NUuTD7SUswVRGZs8NSw1WHigOKhwTM";
-        // const response = await getRestaurants(token);
-        // const responseData = response.data;
-        // //console.log(response);
-        // const restaurantsArr = [];
-        // (responseData).forEach((item) => {
-        //   restaurantsArr.push(item);
-        // });
-        // act(() => {
-        //   setRestaurants(restaurantsArr);
-        //   setDataFetched(true);
-        // })
         history.push('/login');
       }
     } catch (e) {

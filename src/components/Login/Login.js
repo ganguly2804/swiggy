@@ -40,12 +40,11 @@ const Login = ({ storeCredentials, storeData, setUserDetails }) => {
       const tokenData = await postLogin(body);
       console.log("Response received: ", tokenData);
 
-      if ("jwt" in tokenData) {
+      if ("token" in tokenData) {
         const credentials = {
           ...body,
           name: tokenData.name,
           token: tokenData.token,
-          jwt: tokenData.jwt,
         };
         // Update store state with valid credentials
         storeCredentials(credentials);

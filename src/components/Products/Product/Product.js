@@ -22,9 +22,9 @@ const Product = ({ product, addToCart, storeData }) => {
  
       <div className={styles.product__details}>
         <img className={styles.product__isVeg} src={vegOrNonvegLogo} alt={altText} />
-        <p className={styles.details__title}>{product.name}</p>
-        <p className={styles.details__desc}>Category: {product.category}</p>
-        <p className={styles.details__price}>Rs. {product.price / 100}</p>
+        <p className={styles.details__title} data-testid="item_name">{product.name}</p>
+        <p className={styles.details__desc} data-testid="item_category">Category: {product.category}</p>
+        <p className={styles.details__price} data-testid="item_price">Rs. {product.price / 100}</p>
       </div>
  
       <div className={styles.product__button}>
@@ -38,6 +38,7 @@ const Product = ({ product, addToCart, storeData }) => {
         <button
           onClick={addItemToCart}
           className={`${styles.button__btn} ${styles.buttons__add}`}
+          data-testid="add_to_cart_button"
         >
           Add To Cart
         </button>

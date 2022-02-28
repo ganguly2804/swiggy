@@ -14,30 +14,19 @@ const Products = ({ restaurant }) => {
   const getMenu = async () => {
     const menuItems = [];
     try {
-      /*await axios
-        .get(`http://food-power.glitch.me/restaurant/${restaurant.id}`)
-        .then(response => {
-          const menuDict = response.data.data.menu.items;
-          console.log(menuDict);
-          const keys = Object.keys(menuDict);
-          keys.forEach((key, index) => {
-            menuItems.push(menuDict[key]);
-          });
-          setProducts(menuItems);
-          setLoaded(true);
-        });
-      });
-      */
       console.log("Fetching menu...");
       const response = await menuData(restaurant.id);
-      //console.log(response);
-      const menuDict = response.data.data.menu.items;
+      console.log("Response");
+      console.log(response.data.menu.items);
+      const menuDict = response.data.menu.items;
       const keys = Object.keys(menuDict);
       keys.forEach((key, index) => {
         menuItems.push(menuDict[key]);
       });
       setProducts(menuItems);
       setLoaded(true);
+      console.log("products array")
+      console.log(menuItems);
     } catch (e) {
       console.log(e);
     }
@@ -74,7 +63,7 @@ const Products = ({ restaurant }) => {
             products.map((product) => (
               <Product key={product.id} product={product} />
             ))
-            : (<ReactBootStrap.Spinner animation="border" />)
+            : (<ReactBootStrap.Spinner animation="border" data-testid="loading" />)
         }
       </div>
     </div>

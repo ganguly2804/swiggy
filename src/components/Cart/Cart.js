@@ -46,14 +46,14 @@ const Cart = ({ cart, credentials, storePrice, storeData }) => {
           <CartItem key={item.id} item={item} />
         ))}
       </div>
-      <div className={styles.cart__summary}>
-        <h4 className={styles.summary__title}>Cart Summary</h4>
+      <div className={styles.cart__summary} data-testid="cart_summary">
+        <h4 className={styles.summary__title} data-testid="cart_summary_title">Cart Summary</h4>
         <hr/>
-        <div className={styles.summary__price}>
+        <div className={styles.summary__price} data-testid="cart_summary_price">
           <span>TOTAL: ({totalItems} items)</span>
           <span>Rs. {totalPrice / 100}</span>
         </div>
-        <button className={styles.summary__checkoutBtn} onClick={checkoutPage}>
+        <button className={styles.summary__checkoutBtn} onClick={checkoutPage} data-testid="checkout_button">
           Proceed To Checkout
         </button>
       </div>

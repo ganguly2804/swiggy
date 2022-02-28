@@ -9983,6 +9983,6 @@ const fakeMenuData = {
 
 export default async () => {
   return await new Promise(resolve => {
-    resolve(fakeMenuData);
+    resolve(fakeMenuData.data);
   });
 };

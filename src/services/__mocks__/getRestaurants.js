@@ -259,10 +259,6 @@ const fakeRestaurantsData = {
     "request": {}
 }
 
-function delay(time) {
-    return new Promise(resolve => setTimeout(resolve, time));
-}
-
 const getRestaurants = async (token) => {
     return await new Promise( async resolve => {
         resolve(fakeRestaurantsData.data);

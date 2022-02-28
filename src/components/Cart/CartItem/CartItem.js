@@ -9,24 +9,25 @@ import {
 import ReactImageFallback from "react-image-fallback";
 import VegLogo from "../../../imgs/veg.png";
 import NonVegLogo from "../../../imgs/nonveg.png";
- 
+import Dustbin from "../../../imgs/dustbin.png";
+
 const CartItem = ({ item, adjustQty, removeFromCart, storeData }) => {
   const [input, setInput] = useState(item.qty);
- 
+
   const onChangeHandler = (e) => {
     setInput(e.target.value);
     adjustQty(item.id, e.target.value);
     storeData();
   };
- 
+
   const removeItemFromCart = () => {
     removeFromCart(item.id);
     storeData();
   };
- 
+
   const vegOrNonvegLogo = item.isVeg === 1 ? VegLogo : NonVegLogo;
   const altText = item.isVeg === 1 ? "Veg" : "Non-veg";
- 
+
   return (
     <div className={styles.cartItem}>
       <div className={styles.item_image}>
@@ -40,9 +41,9 @@ const CartItem = ({ item, adjustQty, removeFromCart, storeData }) => {
       </div>
       <div className={styles.cartItem__details}>
         <img className={styles.item__isVeg} src={vegOrNonvegLogo} alt={altText} />
-        <p className={styles.details__title}>{item.name}</p>
-        <p className={styles.details__desc}>Category: {item.category}</p>
-        <p className={styles.details__price}>Rs. {item.price / 100}</p>
+        <p className={styles.details__title} data-testid="cartitem_name">{item.name}</p>
+        <p className={styles.details__desc} data-testid="cartitem_category">Category: {item.category}</p>
+        <p className={styles.details__price} data-testid="cartitem_price">Rs. {item.price / 100}</p>
       </div>
       <div className={styles.cartItem__actions}>
         <div className={styles.cartItem__qty}>
@@ -54,11 +55,12 @@ const CartItem = ({ item, adjustQty, removeFromCart, storeData }) => {
             name="qty"
             value={input}
             onChange={onChangeHandler}
+            data-testid="cartitem_qty_input"
           />
         </div>
-        <button onClick={removeItemFromCart} className={styles.actions__deleteItemBtn}>
+        <button onClick={removeItemFromCart} className={styles.actions__deleteItemBtn} data-testid="cartitem_remove">
           <img
-            src="https://image.flaticon.com/icons/svg/709/709519.svg"
+            src={Dustbin}
             alt="DEL"
           />
         </button>
@@ -66,7 +68,7 @@ const CartItem = ({ item, adjustQty, removeFromCart, storeData }) => {
     </div>
   );
 };
- 
+
 const mapDispatchToProps = (dispatch) => {
   return {
     adjustQty: (id, value) => dispatch(adjustItemQty(id, value)),
@@ -74,5 +76,5 @@ const mapDispatchToProps = (dispatch) => {
     storeData: () => dispatch(storeData()),
   };
 };
- 
+
 export default connect(null, mapDispatchToProps)(CartItem);

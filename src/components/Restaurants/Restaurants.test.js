@@ -22,8 +22,7 @@ beforeEach(() => {
                 email: "newuser12@gmail.com",
                 password: "newuser12",
                 name: "new user",
-                token: "testtoken",
-                jwt: "testjwt"
+                token: "testtoken"
             }
         }
     };
@@ -45,7 +44,7 @@ describe("renders the Restaurants component", () => {
     //     expect(wrapper.getByTestId("loading")).toBeInTheDocument();
     // });
 
-    it("fetches the restaurants data and renders the Restaurants cards with its details", done => {
+    it("fetches the restaurants data and renders the Restaurants cards with details", done => {
         setTimeout(() => {
             expect(wrapper.getByText("Polar Bear")).toBeInTheDocument();
             done();
